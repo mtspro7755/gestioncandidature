@@ -8,4 +8,7 @@ import jakarta.persistence.Id;
 public class Filiere {
     @Id
     private Long id;
+    private String nom;
+    private String description;
+    private String niveau;
 }

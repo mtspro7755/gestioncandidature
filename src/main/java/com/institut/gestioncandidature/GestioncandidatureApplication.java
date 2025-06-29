@@ -1,4 +1,4 @@
-package com.institut.gestioncandidature.gestioncandidature;
+package com.institut.gestioncandidature;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

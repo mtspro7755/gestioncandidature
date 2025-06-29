@@ -1,4 +1,4 @@
-package com.institut.gestioncandidature.DTO;
+package com.institut.gestioncandidature.dto;
 
 import lombok.Data;
 
