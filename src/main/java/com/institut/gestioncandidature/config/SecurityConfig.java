@@ -1,39 +1,41 @@
+// src/main/java/com/institut/gestioncandidature/config/SecurityConfig.java
+
 package com.institut.gestioncandidature.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
-// import org.springframework.security.web.util.matcher.AntPathRequestMatcher; // <-- Supprimez cet import si vous ne l'utilisez plus !
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity; // <-- Assurez-vous d'avoir cette annotation
 
 @Configuration
-// @EnableWebSecurity // Assurez-vous que cette annotation est présente si vous n'avez pas de configuration par défaut ailleurs
+@EnableWebSecurity // Active la configuration de sécurité web de Spring
 public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .csrf(csrf -> csrf.disable()) // Désactive CSRF pour les API REST (important pour POST, PUT, DELETE)
                 .authorizeHttpRequests(authorize -> authorize
+                        // Autoriser tous les endpoints sous /api/candidatures
+                        .requestMatchers("/api/candidatures/**").permitAll()
+                        // Autoriser tous les endpoints sous /api/filieres (votre nouveau endpoint)
+                        .requestMatchers("/api/filieres/**").permitAll()
                         // Autoriser les chemins de Swagger UI
                         .requestMatchers(
-                                "/swagger-ui/**",          // Chemin pour l'interface UI
-                                "/v3/api-docs/**",         // Chemin pour la spécification OpenAPI JSON/YAML
-                                "/v2/api-docs/**",         // Pour la compatibilité avec OpenAPI 2 (si vous en aviez besoin)
-                                "/swagger-resources/**",   // Pour les ressources de Swagger (compatibilité)
-                                "/webjars/**"              // Pour les assets statiques (CSS, JS) de Swagger UI
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**",
+                                "/v2/api-docs/**",
+                                "/swagger-resources/**",
+                                "/webjars/**"
                         ).permitAll()
-                        // Autoriser tous les endpoints sous /api/candidatures (votre API)
-                        .requestMatchers(
-                                "/api/candidatures/**"
-                        ).permitAll()
-                        // --- Si vous avez un context-path comme /ipsl, ajoutez-le ici aussi ---
-                        // Par exemple :
-                        // .requestMatchers("/ipsl/swagger-ui/**", "/ipsl/v3/api-docs/**", "/ipsl/api/candidatures/**").permitAll()
-                        // ---------------------------------------------------------------------
-
+                        // Autoriser les requêtes POST vers /error qui sont déclenchées par des erreurs
+                        .requestMatchers("/error").permitAll() // Le filtre a tenté de sécuriser /error aussi
                         .anyRequest().authenticated() // Toutes les autres requêtes nécessitent une authentification
-                )
-                .csrf(csrf -> csrf.disable()); // Désactiver CSRF pour les APIs REST, à moins que vous ne le gériez explicitement
+                );
+        // Si vous avez un mécanisme de connexion/déconnexion, vous pouvez le configurer ici
+        // .formLogin(Customizer.withDefaults()) // Active la page de login par défaut de Spring Security
+        // .httpBasic(Customizer.withDefaults()); // Active l'authentification HTTP Basic
 
         return http.build();
     }
