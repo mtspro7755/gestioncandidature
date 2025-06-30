@@ -21,6 +21,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/candidatures/**").permitAll()
                         // Autoriser tous les endpoints sous /api/filieres (votre nouveau endpoint)
                         .requestMatchers("/api/filieres/**").permitAll()
+                        // Autoriser tous les endpoints sous /api/candidats/ (votre nouveau endpoint)
+                        .requestMatchers("/api/candidats/**").permitAll()
                         // Autoriser les chemins de Swagger UI
                         .requestMatchers(
                                 "/swagger-ui/**",
