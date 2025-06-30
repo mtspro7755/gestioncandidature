@@ -65,7 +65,7 @@ public class CandidatureService {
 
 
     public Candidature update(Long id, CandidatureRequest request) {
-        // 1. Récupérer la candidature existante par son ID
+
         Candidature existingCandidature = candidatureRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Candidature avec l'ID " + id + " introuvable pour la mise à jour."));
 
