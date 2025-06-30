@@ -1,7 +1,6 @@
 package com.institut.gestioncandidature.controllers;
 
 
-import com.institut.gestioncandidature.dto.CandidatureRequest;
 import com.institut.gestioncandidature.models.Candidature;
 import com.institut.gestioncandidature.services.CandidatureService;
 import lombok.RequiredArgsConstructor;
@@ -19,10 +18,9 @@ public class CandidatureController {
     private final CandidatureService candidatureService;
 
     @PostMapping
-    public ResponseEntity<Candidature> addCandidature(@RequestBody CandidatureRequest request) {
-        return ResponseEntity.ok(candidatureService.save(request));
+    public ResponseEntity<Candidature> addCandidature(@RequestBody Candidature candidature) {
+        return ResponseEntity.ok(candidatureService.save(candidature));
     }
-
     @GetMapping
     public ResponseEntity<List<Candidature>> getAll() {
         return ResponseEntity.ok(candidatureService.getAll());
@@ -40,11 +38,7 @@ public class CandidatureController {
     }
 
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Candidature> updateCandidature(@PathVariable Long id, @RequestBody CandidatureRequest request) {
-        Candidature updatedCandidature = candidatureService.update(id, request);
-        return ResponseEntity.ok(updatedCandidature);
-    }
+
 
 
 }
