@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 @Builder
 public class Candidature {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDateTime dateDepot;
 

@@ -36,9 +36,3 @@ public class CandidatureService {
         candidatureRepository.findById(id);
     }
 
-
-
-
-
-
-}
